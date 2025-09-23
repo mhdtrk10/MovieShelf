@@ -41,9 +41,7 @@ struct MovieListItem: View {
                     .padding(.leading,4)
                     .font(.system(size: 15))
                 
-                
-                //Circle().fill(.red).frame(width: 6, height: 6)
-                //Text("\(movies.rate!)").font(.caption).foregroundStyle(.secondary)
+
                 
             }
             .frame(maxWidth: .infinity, alignment: .leading)
