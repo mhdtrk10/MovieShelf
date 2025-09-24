@@ -38,6 +38,9 @@ class CartViewModel : ObservableObject {
         }
     }
     
+    
+    
+    
     func firstCartIndex(matchingAggregatedName name: String) -> Int? {
         let key = normalize(name)
         return cartMovieList.firstIndex { normalize($0.name) == key }
@@ -48,27 +51,44 @@ class CartViewModel : ObservableObject {
     
     func aggregateByName() async {
         
-        
         let grouped = Dictionary(grouping: cartMovieList, by: { $0.name })
-        
         let rows: [AggregatedCartRow] = grouped.map { (name, group) in
+            let displayName = group.first?.name!
+            let image = group.first?.image!
+            let price = group.first?.price!
+            let category = group.first?.category!
+            let rating = group.first?.rating!
+            let year = group.first?.year!
+            let director = group.first?.director!
+            let description = group.first?.description!
+            let orderAmount = group.first?.orderAmount!
+            let userName = group.first?.userName!
             let totalQty = group.reduce(0) { $0 + $1.orderAmount! }
             
-            let unitPrice = group.first?.price
             let totalPrice: Int? = {
-                guard let _ = unitPrice else { return nil }
+                guard let _ = price else { return nil }
                 return group.reduce(0) { $0 + ($1.price! * $1.orderAmount!) }
             }()
             
+            let cartId: Int? = group.first?.cartId
+            
             return AggregatedCartRow(
-                name: name!,
+                cartId: cartId!,
+                name: displayName!,
+                image: image!,
+                price: price!,
+                category: category!,
+                rating: rating!,
+                year: year!,
+                director: director!,
+                description: description!,
+                orderAmount: orderAmount!,
+                userName: userName!,
                 totalQty: totalQty,
-                unitPrice: unitPrice,
                 totalPrice: totalPrice
             )
         }
         self.aggregated = rows.sorted(by: { $0.name! < $1.name! })
-        
-        
     }
+
 }

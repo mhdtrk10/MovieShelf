@@ -14,6 +14,7 @@ class FilmViewModel {
     func save(name: String, image: String, price: Int, category: String, rating: Double, year: Int, director: String, description: String, orderAmount: Int, userName: String ) async {
         do {
             try await repository.save(name: name, image: image, price: price, category: category, rating: rating, year: year, director: director, description: description, orderAmount: orderAmount, userName: userName)
+            
         } catch {
             
         }

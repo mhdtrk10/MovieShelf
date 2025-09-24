@@ -28,15 +28,7 @@ struct MainScreen: View {
                 
                 VStack {
                     HStack(spacing: 4) {
-                        /*
-                        NavigationLink(destination: CartScreen()) {
-                            Text("Sepeti Görüntüle")
-                                .foregroundColor(AppColors.barColor)
-                                .frame(width: 150, height: 30, alignment: .leading)
-                                .padding()
-                        }
-                        .padding(.trailing, 24)
-                        */
+                        
                         Button {
                             withAnimation(.spring(response: 0.25, dampingFraction: 0.9)) {
                                 showSearch.toggle()
@@ -46,7 +38,6 @@ struct MainScreen: View {
                             Image(systemName: showSearch ? "xmark.circle" : "magnifyingglass")
                         }
                         .padding(.leading, 8)
-                        
                         if showSearch {
                             TextField("", text: $viewModel.query, prompt: Text("Search").foregroundColor(AppColors.barColor))
                                 .foregroundColor(AppColors.barColor)
@@ -89,18 +80,12 @@ struct MainScreen: View {
                                 .labelStyle(.iconOnly) // istersen .titleAndIcon yap
                                 .font(.title3)
                         }
+                        .padding(.trailing,16)
+                        .padding(4)
                         
                         
                         
-                        Button {
-                            
-                        } label: {
-                            Image(systemName: "slider.horizontal.3")
-                                .font(.headline)
-                                .foregroundColor(AppColors.barColor)
-                                .padding(.trailing, 32)
-                                
-                        }
+                        
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading,8)
@@ -124,6 +109,15 @@ struct MainScreen: View {
                                             MovieListItem(movies: movie)
                                         }
                                     }
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .fill(AppColors.krem)
+                                            .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 3)
+                                    )
+                                    .overlay {
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+                                    }
                                 }
                                 .padding(.horizontal, 8)
                                 .padding(.vertical, 8)
@@ -131,20 +125,23 @@ struct MainScreen: View {
                                 
                                 
                             }
-                            NavigationLink(destination: CartScreen()) {
-                                Text("Sepeti Görüntüle")
-                                    .foregroundColor(AppColors.barColor)
-                                    .frame(width: 150, height: 30, alignment: .leading)
-                                    .padding()
+                            VStack {
+                                
+                                NavigationLink(destination: CartScreen()) {
+                                    Text("Sepeti Görüntüle")
+                                        .foregroundColor(AppColors.barColor)
+                                        .padding()
+                                }
+                                .background(Color.blue)
+                                
                             }
-                            .background(Color.blue)
+                            .frame(maxWidth: .infinity, maxHeight: 30, alignment: .bottom)
                         }
-                        .padding(.bottom, 8)
+                        //.padding(.bottom, 8)
                         
                     }
                     
                 }
-                
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                 .navigationTitle("MovieShelf")
                 .onAppear {

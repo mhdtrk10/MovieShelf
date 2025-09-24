@@ -9,34 +9,36 @@ import SwiftUI
 
 struct MovieListItem: View {
     var movies = Movies()
-    
+    var filmViewModel = FilmViewModel()
     
     var body: some View {
         VStack(alignment: .center, spacing: 4) {
             
-            AsyncImage(url: URL(string: "http://kasimadalan.pe.hu/movies/images/\(movies.image!)")) { phase in
-                if let image = phase.image {
-                    
-                    image
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 150, height: 200)
-                        .padding(.top,8)
-                        .cornerRadius(8)
-                } else if phase.error != nil {
-                    Color.red.overlay(Text("Hata"))
-                } else {
-                    ProgressView()
+            VStack {
+                AsyncImage(url: URL(string: "http://kasimadalan.pe.hu/movies/images/\(movies.image!)")) { phase in
+                    if let image = phase.image {
+                        
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 150, height: 200)
+                            .padding(.top,8)
+                            //.cornerRadius(24)
+                    } else if phase.error != nil {
+                        Color.red.overlay(Text("Hata"))
+                    } else {
+                        ProgressView()
+                    }
                 }
             }
-            
-            
+            .frame(width: 150, height: 200)
+            .cornerRadius(32)
             Text(movies.name!)
                 .foregroundColor(AppColors.barColor)
                 .font(.subheadline.bold())
                 .lineLimit(2)
             HStack(alignment: .center,spacing: 6) {
-                Text("Fiyat : \(movies.price!) Dolar")
+                Text("Fiyat : \(movies.price!) ₺")
                     .foregroundColor(AppColors.barColor)
                     .padding(.leading,4)
                     .font(.system(size: 15))
@@ -69,7 +71,9 @@ struct MovieListItem: View {
             .padding(.bottom,4)
             
             Button {
-                
+                Task {
+                    await filmViewModel.save(name: movies.name!, image: movies.image!, price: movies.price!, category: movies.category!, rating: movies.rating!, year: movies.year!, director: movies.director!, description: movies.description!, orderAmount: 1, userName: "mehdi_oturak")
+                }
             } label: {
                 Text("Sepete Ekle")
                     .font(.caption)

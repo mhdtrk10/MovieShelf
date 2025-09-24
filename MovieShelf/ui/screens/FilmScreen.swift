@@ -20,23 +20,7 @@ struct FilmScreen: View {
             
             VStack(alignment: .center, spacing: 8) {
                 VStack(spacing: 8) {
-                    /*
-                    AsyncImage(url: URL(string: "http://kasimadalan.pe.hu/movies/images/\(movies.image!)")) { phase in
-                        if let image = phase.image {
-                            
-                            image
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 250, height: 300)
-                                .padding(.top,8)
-                                .cornerRadius(16)
-                        } else if phase.error != nil {
-                            Color.red.overlay(Text("Hata"))
-                        } else {
-                            ProgressView()
-                        }
-                    }
-                     */
+                
                     VStack {
                         AsyncImage(url: URL(string: "http://kasimadalan.pe.hu/movies/images/\(movies.image!)")) { phase in
                             if let image = phase.image {
@@ -44,7 +28,7 @@ struct FilmScreen: View {
                                 image
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 220, height: 280)
+                                    .frame(width: 250, height: 300)
                                     .padding(.top,8)
                                     .cornerRadius(16)
                             } else if phase.error != nil {
@@ -54,9 +38,7 @@ struct FilmScreen: View {
                             }
                         }
                     }
-                    .frame(width: 180, height: 240)
-                    
-                    .background(Color.blue)
+                    .frame(width: 200, height: 250)
                     .cornerRadius(16)
                     
                     Text(movies.name!)
@@ -105,6 +87,20 @@ struct FilmScreen: View {
                     .background(Color(AppColors.krem))
                     .cornerRadius(8)
                     
+                    HStack(spacing: 4) {
+                        Text("Kategori: ")
+                            .font(.subheadline)
+                            .foregroundColor(AppColors.barColor)
+                            .padding(.leading, 8)
+                        
+                        Text("\(movies.category!)")
+                            .font(.subheadline)
+                            .foregroundColor(AppColors.barColor)
+                    }
+                    .frame(width: 250, height: 30, alignment: .leading)
+                    .background(Color(AppColors.krem))
+                    .cornerRadius(8)
+                    
                     HStack {
                         Text("\(movies.description!)")
                             .padding(.leading, 8)
@@ -131,7 +127,7 @@ struct FilmScreen: View {
                     
                     
                 }
-                .frame(width: 350, height: 600, alignment: .top)
+                .frame(width: 350, height: 620, alignment: .top)
                 .padding(.top,8)
                 .background(Color(AppColors.lacivert))
                 .cornerRadius(16)
