@@ -144,6 +144,7 @@ struct FilmScreen: View {
                         .foregroundColor(AppColors.barColor)
                         .background(Color(AppColors.lacivert))
                 }
+                .buttonStyle(PressableStyle())
                 .cornerRadius(16)
                 //.background(Color(AppColors.lacivert))
                 

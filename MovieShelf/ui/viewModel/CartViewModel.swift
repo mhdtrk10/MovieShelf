@@ -11,7 +11,10 @@ class CartViewModel : ObservableObject {
     private let repository = movieRepository()
     @Published var cartMovieList = [CartMovies]() {
         didSet {
-            Task { await aggregateByName() }
+            Task {
+                await aggregateByName()
+                
+            }
         }
     }
     
@@ -38,16 +41,19 @@ class CartViewModel : ObservableObject {
         }
     }
     
-    
-    
+    func recalcTotalInt() -> Int {
+        cartMovieList.reduce(0) { $0 + (( $1.price ?? 0) * ( $1.orderAmount ?? 0)) }
+    }
     
     func firstCartIndex(matchingAggregatedName name: String) -> Int? {
         let key = normalize(name)
         return cartMovieList.firstIndex { normalize($0.name) == key }
     }
-    private func normalize(_ raw: String?) -> String {
+    func normalize(_ raw: String?) -> String {
         (raw ?? "-").trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
     }
+    
+    
     
     func aggregateByName() async {
         

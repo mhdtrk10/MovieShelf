@@ -75,9 +75,9 @@ struct MainScreen: View {
                             Button("IMDb Artan")  { viewModel.sort = .ratingAsc }
                             Button("IMDb Azalan") { viewModel.sort = .ratingDesc }
                         } label: {
-                            // Seçili sıralamayı kısa yazan buton
+                            
                             Label(viewModel.sort.title, systemImage: "arrow.up.arrow.down")
-                                .labelStyle(.iconOnly) // istersen .titleAndIcon yap
+                                .labelStyle(.iconOnly)
                                 .font(.title3)
                         }
                         .padding(.trailing,16)
@@ -90,54 +90,59 @@ struct MainScreen: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading,8)
                     .padding(.top,8)
-                    
+                    .padding(.bottom,4)
                     if viewModel.movieList.isEmpty {
-                        Text("No movies Yet !").foregroundStyle(.white)
+                        Text("Filmler yok !")
+                            .foregroundColor(AppColors.barColor)
                     } else {
-                        VStack {
-                            ScrollView {
+                        ScrollView {
 
-                                LazyVGrid(
-                                    columns: [GridItem(.flexible(), spacing: 12),
-                                              GridItem(.flexible(), spacing: 12)],
-                                    
-                                                
-                                    spacing: 8
-                                ) {
-                                    ForEach(viewModel.filtered) { movie in
-                                        NavigationLink(destination: FilmScreen(movies: movie)) {
-                                            MovieListItem(movies: movie)
-                                        }
-                                    }
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 8)
-                                            .fill(AppColors.krem)
-                                            .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 3)
-                                    )
-                                    .overlay {
-                                        RoundedRectangle(cornerRadius: 8)
-                                            .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+                            LazyVGrid(
+                                columns: [GridItem(.flexible(), spacing: 12),
+                                          GridItem(.flexible(), spacing: 12)],
+                                
+                                            
+                                spacing: 8
+                            ) {
+                                ForEach(viewModel.filtered) { movie in
+                                    NavigationLink(destination: FilmScreen(movies: movie)) {
+                                        MovieListItem(movies: movie)
                                     }
                                 }
-                                .padding(.horizontal, 8)
-                                .padding(.vertical, 8)
-                                .cornerRadius(8)
-                                
-                                
-                            }
-                            VStack {
-                                
-                                NavigationLink(destination: CartScreen()) {
-                                    Text("Sepeti Görüntüle")
-                                        .foregroundColor(AppColors.barColor)
-                                        .padding()
+                                .background(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(AppColors.krem)
+                                        .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 3)
+                                )
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color.gray.opacity(0.2), lineWidth: 1)
                                 }
-                                .background(Color.blue)
-                                
                             }
-                            .frame(maxWidth: .infinity, maxHeight: 30, alignment: .bottom)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 8)
+                            .cornerRadius(8)
+                            
+                            
                         }
-                        //.padding(.bottom, 8)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                        VStack {
+                            
+                            NavigationLink(destination: CartScreen()) {
+                                Text("Sepeti Görüntüle")
+                                    .foregroundColor(AppColors.barColor)
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 12)
+                                    .frame(maxWidth: .infinity, maxHeight: 50, alignment: .center)
+                                    .background(RoundedRectangle(cornerRadius: 4).fill(Color(AppColors.lacivert)))
+                                    .padding(.leading, 8)
+                                    .padding(.trailing, 8)
+                            }
+                            .buttonStyle(PressableStyle())
+                            
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: 50, alignment: .center)
+                        
                         
                     }
                     

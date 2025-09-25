@@ -28,5 +28,6 @@ struct NavigationBarStyle {
         UINavigationBar.appearance().compactAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
         
+        
     }
 }

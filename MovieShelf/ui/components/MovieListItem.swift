@@ -38,7 +38,7 @@ struct MovieListItem: View {
                 .font(.subheadline.bold())
                 .lineLimit(2)
             HStack(alignment: .center,spacing: 6) {
-                Text("Fiyat : \(movies.price!) ₺")
+                Text("Fiyat : \(movies.price!) TL")
                     .foregroundColor(AppColors.barColor)
                     .padding(.leading,4)
                     .font(.system(size: 15))
