@@ -37,39 +37,47 @@ struct MovieListItem: View {
                 .foregroundColor(AppColors.barColor)
                 .font(.subheadline.bold())
                 .lineLimit(2)
-            HStack(alignment: .center,spacing: 6) {
-                Text("Fiyat : \(movies.price!) TL")
-                    .foregroundColor(AppColors.barColor)
-                    .padding(.leading,4)
-                    .font(.system(size: 15))
-                
+            
+            
+            VStack {
+                HStack {
+                    Text("Fiyat : \(movies.price!) TL")
+                        .foregroundColor(AppColors.barColor)
+                        .padding(.leading,4)
+                        .font(.system(size: 15))
+                    
 
+                    
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                
+                HStack {
+                    Text("IMDb: \(String(format: "%.2f", movies.rating!))")
+                        .foregroundColor(AppColors.barColor)
+                        .padding(.leading,4)
+                        .font(.system(size: 15))
+                    
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                
+                HStack(spacing: 6) {
+                    Text(movies.category!)
+                        .font(.system(size: 10))
+                        .foregroundColor(AppColors.barColor)
+                        .padding(.horizontal, 8).padding(.vertical, 4)
+                        .background(Color.gray.opacity(0.5))
+                        .clipShape(Capsule())
+                    
+                    Spacer()
+                }
+                .padding(.leading,4)
+                .padding(.bottom,4)
                 
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.leading, 8)
             
-            HStack() {
-                Text("IMDb: \(String(format: "%.2f", movies.rating!))")
-                    .foregroundColor(AppColors.barColor)
-                    .padding(.leading,4)
-                    .font(.system(size: 15))
-                
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
             
-            HStack(spacing: 6) {
-                Text(movies.category!)
-                    .font(.system(size: 10))
-                    .foregroundColor(AppColors.barColor)
-                    .padding(.horizontal, 8).padding(.vertical, 4)
-                    .background(Color.gray.opacity(0.5))
-                    .clipShape(Capsule())
-                
-                Spacer()
-            }
-            .padding(.leading,4)
-            .padding(.bottom,4)
-            
+            /*
             Button {
                 Task {
                     await filmViewModel.save(name: movies.name!, image: movies.image!, price: movies.price!, category: movies.category!, rating: movies.rating!, year: movies.year!, director: movies.director!, description: movies.description!, orderAmount: 1, userName: "mehdi_oturak")
@@ -84,7 +92,7 @@ struct MovieListItem: View {
                     .background(Color.gray.opacity(0.3))
             }
             .cornerRadius(8)
-            
+            */
             Spacer()
         }
         .background(Color.gray.opacity(0.15))

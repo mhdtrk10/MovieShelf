@@ -12,7 +12,7 @@ struct FilmScreen: View {
     @Environment(\.dismiss) private var dismiss
     var movies = Movies()
     var viewModel = FilmViewModel()
-    @ObservedObject var cartviewModel = CartViewModel()
+    @State private var amount = 1
     var body: some View {
         ZStack {
             Color(AppColors.krem)
@@ -111,17 +111,24 @@ struct FilmScreen: View {
                     .background(Color(AppColors.krem))
                     .cornerRadius(8)
                     
-                    HStack(spacing: 4) {
-                        Text("Fiyat: ")
-                            .font(.subheadline)
-                            .foregroundColor(AppColors.barColor)
-                            .padding(.leading, 8)
+                    
+                    
+                    HStack(spacing: 16) {
+                        Picker("", selection: $amount) {
+                            ForEach(1..<11) { number in
+                                Text("\(number)").tag(number)
+                            }
+                        }
+                        .padding(.horizontal, 4)
+                        .frame(height: 25)
+                        .background(Color(AppColors.lacivert))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
                         
-                        Text("\(movies.price!) Türk Lirası")
+                        Text("\(amount * movies.price!) TL")
                             .font(.subheadline)
                             .foregroundColor(AppColors.barColor)
                     }
-                    .frame(width: 250, height: 30, alignment: .leading)
+                    .frame(width: 250, height: 30, alignment: .center)
                     .background(Color(AppColors.krem))
                     .cornerRadius(8)
                     
@@ -134,7 +141,7 @@ struct FilmScreen: View {
                 
                 Button {
                     Task {
-                        await viewModel.save(name: movies.name!, image: movies.image!, price: movies.price!, category: movies.category!, rating: movies.rating!, year: movies.year!, director: movies.director!, description: movies.description!, orderAmount: 1, userName: "mehdi_oturak")
+                        await viewModel.save(name: movies.name!, image: movies.image!, price: movies.price!, category: movies.category!, rating: movies.rating!, year: movies.year!, director: movies.director!, description: movies.description!, orderAmount: amount, userName: "mehdi_oturak")
                     }
                 } label: {
                     Text("Sepete Ekle")
@@ -146,7 +153,7 @@ struct FilmScreen: View {
                 }
                 .buttonStyle(PressableStyle())
                 .cornerRadius(16)
-                //.background(Color(AppColors.lacivert))
+                
                 
                 
                 

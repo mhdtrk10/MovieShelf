@@ -50,7 +50,7 @@ struct CartScreen: View {
                                         Text("\(movie.name!)")
                                             .foregroundColor(AppColors.barColor)
                                             .font(.system(size: 15))
-                                            
+                                        
                                         Spacer()
                                         Text("Adet : \(movie.totalQty!)")
                                             .foregroundColor(AppColors.barColor)
@@ -65,21 +65,33 @@ struct CartScreen: View {
                                         Button {
                                             Task {
                                                 guard let name = movie.name,
-                                                      let cardIdx = viewModel.firstCartIndex(matchingAggregatedName: name) else { return }
-                                                delete(at: IndexSet(integer: cardIdx))
+                                                      let Idx = viewModel.firstCartIndex(matchingAggregatedName: name)
+                                                else { return }
+                                                
+                                                let raw = viewModel.cartMovieList[Idx]
+                                                let currentQty = raw.orderAmount ?? 1
+                                                
+                                                if currentQty > 1 {
+                                                    await viewModel.updateOrderAmount(
+                                                        cartId: raw.cartId!,
+                                                        newAmount: currentQty - 1,
+                                                        userName: "mehdi_oturak"
+                                                    )
+                                                } else {
+                                                    await viewModel.delete(cartId: raw.cartId!, userName: "mehdi_oturak")
+                                                }
                                             }
                                         } label: {
                                             Image(systemName: "minus.square.fill")
                                                 .foregroundColor(AppColors.barColor)
                                         }
                                         .buttonStyle(.borderless)
-                                        
-                                        
+
                                         .padding(.trailing,8)
                                         
                                         Button {
                                             Task {
-                                                await filmViewModel.save(name: movie.name!, image: movie.image!, price: movie.price!, category: movie.category!, rating: movie.rating!, year: movie.year!, director: movie.director!, description: movie.description!, orderAmount: movie.orderAmount!, userName: "mehdi_oturak")
+                                                await filmViewModel.save(name: movie.name!, image: movie.image!, price: movie.price!, category: movie.category!, rating: movie.rating!, year: movie.year!, director: movie.director!, description: movie.description!, orderAmount: 1, userName: "mehdi_oturak")
                                                 await viewModel.loadCartMovies(userName: "mehdi_oturak")
                                             }
                                         } label: {
@@ -122,18 +134,17 @@ struct CartScreen: View {
                         .onDelete { offsets in
                             guard let aggIndex = offsets.first else { return }
                             let row = viewModel.aggregated[aggIndex]
-                            deleteAllFromAggregatedRow(row)             // ← tek tek değil, hepsi
+                            Task { await viewModel.deleteAll(fromAggregated: row, userName: "mehdi_oturak") }
                         }
-
+                        
                     }
-                    //.frame(maxWidth: .infinity, maxHeight: 650)
                     .padding(.bottom, 48)
                     .scrollContentBackground(.hidden)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                 
             }
-                
+            
             
             VStack {
                 HStack(spacing: 8) {
@@ -146,7 +157,7 @@ struct CartScreen: View {
                             .padding(.vertical, 12)
                             .frame(maxWidth: 200, maxHeight: 50, alignment: .center)
                             .background(RoundedRectangle(cornerRadius: 4).fill(Color(AppColors.krem)))
-                            
+                        
                     }
                     .buttonStyle(PressableStyle())
                     Text("\(viewModel.recalcTotalInt()) TL")
@@ -161,9 +172,8 @@ struct CartScreen: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
             
-            //.padding(.bottom,8)
             
-           
+            
         }
         .onAppear {
             Task {
@@ -183,27 +193,7 @@ struct CartScreen: View {
             
         }
     }
-    func deleteAllFromAggregatedRow(_ row: AggregatedCartRow) {
-        guard let name = row.name else { return }
-        let key = norm(name)
-        
-        // 1) Bu gruba ait TÜM cartId’leri topla (indexler silindikçe kayacağı için id ile ilerliyoruz)
-        let ids = viewModel.cartMovieList
-            .filter { norm($0.name) == key }
-            .compactMap { $0.cartId }
-        
-        // 2) Her id için güncel index’i bul ve mevcut delete(at:) ile sil
-        for cid in ids {
-            if let idx = viewModel.cartMovieList.firstIndex(where: { $0.cartId == cid }) {
-                delete(at: IndexSet(integer: idx))  // ← SENİN delete(at:) fonksiyonun
-            }
-        }
-    }
     
-    // küçük normalize (isim eşleşmesi için)
-    func norm(_ s: String?) -> String {
-        (s ?? "-").trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-    }
 }
 
 #Preview {

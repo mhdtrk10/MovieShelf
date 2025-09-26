@@ -10,7 +10,6 @@ import SwiftUI
 struct MainScreen: View {
     
     @ObservedObject var viewModel = MainViewModel()
-    @State private var searchText = ""
     @State private var showSearch = false
     
     

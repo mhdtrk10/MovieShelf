@@ -11,7 +11,7 @@ class movieRepository {
     
     //http://kasimadalan.pe.hu/movies/getAllMovies.php
     private let baseUrl = "http://kasimadalan.pe.hu/movies/"
-    
+    // bütün filmler
     func loadMovies() async throws -> [Movies] {
         
         let apiUrl = "\(baseUrl)getAllMovies.php"
@@ -25,7 +25,7 @@ class movieRepository {
         
         return moviesResponse.movies!
     }
-    
+    // kayıt
     func save(name: String, image: String, price: Int, category: String, rating: Double, year: Int, director: String, description: String, orderAmount: Int, userName: String ) async throws {
         let apiUrl = "\(baseUrl)insertMovie.php"
         
@@ -44,7 +44,7 @@ class movieRepository {
         print("Response : \(crudResponse.success!) \(crudResponse.message!) ")
         
     }
-    
+    // sepetteki bütün filmler
     func loadCartMovies(userName: String) async throws -> [CartMovies] {
         let apiUrl = "\(baseUrl)getMovieCart.php"
         
@@ -71,6 +71,7 @@ class movieRepository {
         return cartResponse.movie_cart ?? []
         
     }
+    // silme
     func delete(cartId: Int, userName: String) async throws {
         let apiUrl = "\(baseUrl)deleteMovie.php"
         

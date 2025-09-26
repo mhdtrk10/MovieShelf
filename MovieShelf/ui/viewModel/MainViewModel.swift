@@ -35,12 +35,12 @@ class MainViewModel : ObservableObject {
         }
     
     
-    
+    // isme göre arama yapma 
     var filtered: [Movies] {
         let filtered = filter(movieList, by: query)
         return sortList(filtered, by: sort)
     }
-    
+    // bütün filmleri çekme
     func loadMovies() async {
         do {
             try await movieList = repository.loadMovies()
@@ -49,14 +49,14 @@ class MainViewModel : ObservableObject {
             movieList = [Movies]()
         }
     }
-    
+    // boşlukları silip büyük küçük harf değişiminden etkilenmemeyi sağlar TR ye harfine dönüşüm
     private func normalizeForSearch(_ text: String) -> String {
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
         let folded  = trimmed.folding(options: [.diacriticInsensitive, .caseInsensitive],
                                       locale: Locale(identifier: "tr_TR"))
         return folded.replacingOccurrences(of: #"\s+"#, with: " ", options: .regularExpression)
     }
-    
+    // bulanık içeriyor mu kontrolü
     private func fuzzyContains(_ haystack: String?, _ needle: String) -> Bool {
         let h = normalizeForSearch(haystack ?? "")
         let n = normalizeForSearch(needle)
@@ -64,13 +64,13 @@ class MainViewModel : ObservableObject {
         return h.contains(n)
     }
     
-    
+    // satırın baş son boşluğu atılıp büyük küçük harf duyarlılığı filtreleniyor
     private func filter(_ list: [Movies], by q: String) -> [Movies] {
         let q = q.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !q.isEmpty else { return list }
         return list.filter { ($0.name ?? "").localizedCaseInsensitiveContains(q) }
     }
-    
+    // isteğe göre sıralama (isme göre A-Z Z-A fiyat artan azalan IMDb artan azalan yıla göre artan azalan)
     private func sortList(_ list: [Movies], by option: SortOption) -> [Movies] {
         let tr = Locale(identifier: "tr_TR")
         return list.sorted { a, b in
@@ -96,7 +96,7 @@ class MainViewModel : ObservableObject {
         }
     }
     
-    
+    // artan azalan sıralamalarda nil olanları sona atan fonksiyon
     private func lessThanOptional<T: Comparable>(_ a: T?, _ b: T?, ascending: Bool) -> Bool {
         switch (a, b) {
         case let (x?, y?): return ascending ? (x < y) : (x > y)
