@@ -13,4 +13,7 @@ struct AppColors {
     static let lacivert = Color("lacivert")
     static let krem = Color("krem")
     static let barColor = Color("barColor")
+    static let barPurp = Color("barPurp")
+    static let backPurp = Color("backPurp")
+    static let White = Color("White")
 }

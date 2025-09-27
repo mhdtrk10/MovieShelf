@@ -15,7 +15,7 @@ struct FilmScreen: View {
     @State private var amount = 1
     var body: some View {
         ZStack {
-            Color(AppColors.krem)
+            Color(AppColors.barPurp)
                 .ignoresSafeArea(.all)
             
             VStack(alignment: .center, spacing: 8) {
@@ -43,72 +43,72 @@ struct FilmScreen: View {
                     
                     Text(movies.name!)
                         .font(.headline)
-                        .foregroundColor(AppColors.barColor)
+                        .foregroundColor(Color(AppColors.White))
                     
                     HStack(spacing: 4) {
                         Text("Yapım Yılı: ")
                             .font(.subheadline)
-                            .foregroundColor(AppColors.barColor)
+                            .foregroundColor(Color(AppColors.White))
                             .padding(.leading, 8)
                         
                         Text("\(String(Int(movies.year!)))")
                             .font(.subheadline)
-                            .foregroundColor(AppColors.barColor)
+                            .foregroundColor(Color(AppColors.White))
                     }
                     .frame(width: 250, height: 30, alignment: .leading)
-                    .background(Color(AppColors.krem))
+                    .background(Color(AppColors.backPurp))
                     .cornerRadius(8)
                     
                     HStack(spacing: 4) {
                         Text("Senarist: ")
                             .font(.subheadline)
-                            .foregroundColor(AppColors.barColor)
+                            .foregroundColor(Color(AppColors.White))
                             .padding(.leading, 8)
                         
                         Text("\(movies.director!)")
                             .font(.subheadline)
-                            .foregroundColor(AppColors.barColor)
+                            .foregroundColor(Color(AppColors.White))
                     }
                     .frame(width: 250, height: 30, alignment: .leading)
-                    .background(Color(AppColors.krem))
+                    .background(Color(AppColors.backPurp))
                     .cornerRadius(8)
                     
                     HStack(spacing: 4) {
                         Text("IMDb: ")
                             .font(.subheadline)
-                            .foregroundColor(AppColors.barColor)
+                            .foregroundColor(Color(AppColors.White))
                             .padding(.leading, 8)
                         
                         Text("\(String(format: "%.2f", movies.rating!))")
                             .font(.subheadline)
-                            .foregroundColor(AppColors.barColor)
+                            .foregroundColor(Color.white)
                     }
                     .frame(width: 250, height: 30, alignment: .leading)
-                    .background(Color(AppColors.krem))
+                    .background(Color(AppColors.backPurp))
                     .cornerRadius(8)
                     
                     HStack(spacing: 4) {
                         Text("Kategori: ")
                             .font(.subheadline)
-                            .foregroundColor(AppColors.barColor)
+                            .foregroundColor(Color.white)
                             .padding(.leading, 8)
                         
                         Text("\(movies.category!)")
                             .font(.subheadline)
-                            .foregroundColor(AppColors.barColor)
+                            .foregroundColor(Color(AppColors.White))
                     }
                     .frame(width: 250, height: 30, alignment: .leading)
-                    .background(Color(AppColors.krem))
+                    .background(Color(AppColors.backPurp))
                     .cornerRadius(8)
                     
                     HStack {
                         Text("\(movies.description!)")
                             .padding(.leading, 8)
                             .padding(.trailing,8)
-                            .foregroundColor(AppColors.barColor)
+                            .foregroundColor(Color(AppColors.White))
                     }
                     .frame(width: 250, height: 130, alignment: .leading)
-                    .background(Color(AppColors.krem))
+                    .background(Color(AppColors.backPurp))
                     .cornerRadius(8)
                     
                     
@@ -116,28 +116,36 @@ struct FilmScreen: View {
                     HStack(spacing: 16) {
                         Picker("", selection: $amount) {
                             ForEach(1..<11) { number in
-                                Text("\(number)").tag(number)
+                                Text("\(number)")
+                                    .tag(number)
+                                    .foregroundColor(Color(AppColors.White))
                             }
                         }
                         .padding(.horizontal, 4)
                         .frame(height: 25)
-                        .background(Color(AppColors.lacivert))
+                        .background(Color(AppColors.barPurp))
                         .clipShape(RoundedRectangle(cornerRadius: 8))
                         
                         Text("\(amount * movies.price!) TL")
                             .font(.subheadline)
-                            .foregroundColor(AppColors.barColor)
+                            .foregroundColor(Color(AppColors.White))
                     }
                     .frame(width: 250, height: 30, alignment: .center)
-                    .background(Color(AppColors.krem))
+                    .background(Color(AppColors.backPurp))
                     .cornerRadius(8)
                     
                     
                 }
+                
                 .frame(width: 350, height: 620, alignment: .top)
                 .padding(.top,8)
-                .background(Color(AppColors.lacivert))
-                .cornerRadius(16)
+                .background(Color(AppColors.barPurp))
+                .cornerRadius(8)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(AppColors.barPurp)
+                        .shadow(color: .black.opacity(0.5), radius: 5, x: 0, y: 3)
+                )
                 
                 Button {
                     Task {
@@ -147,12 +155,12 @@ struct FilmScreen: View {
                     Text("Sepete Ekle")
                         .font(.title3)
                         .fontWeight(.bold)
-                        .frame(width: 250, height: 50)
-                        .foregroundColor(AppColors.barColor)
-                        .background(Color(AppColors.lacivert))
+                        .frame(width: 350, height: 50)
+                        .foregroundColor(Color(AppColors.White))
+                        .background(Color(AppColors.barPurp))
                 }
                 .buttonStyle(PressableStyle())
-                .cornerRadius(16)
+                .cornerRadius(8)
                 
                 
                 
@@ -160,7 +168,7 @@ struct FilmScreen: View {
             }
             .frame(maxWidth: .infinity,maxHeight: .infinity,alignment: .top)
             .padding(.top,8)
-            .background(Color.gray.opacity(0.3))
+            .background(Color(AppColors.backPurp))
             .navigationTitle("\(movies.name!)")
         }
     }

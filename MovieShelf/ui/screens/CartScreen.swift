@@ -13,13 +13,13 @@ struct CartScreen: View {
     var filmViewModel = FilmViewModel()
     var body: some View {
         ZStack {
-            Color(AppColors.lacivert)
+            Color(AppColors.backPurp)//AppColors.lacivert idi.
                 .ignoresSafeArea(edges: .all)
             
             
             if viewModel.aggregated.isEmpty {
                 Text("Sepet boş!")
-                    .foregroundColor(AppColors.barColor)
+                    .foregroundColor(Color.white)
             } else {
                 VStack {
                     List {
@@ -48,12 +48,12 @@ struct CartScreen: View {
                                     
                                     VStack(alignment: .leading) {
                                         Text("\(movie.name!)")
-                                            .foregroundColor(AppColors.barColor)
+                                            .foregroundColor(Color(AppColors.White))
                                             .font(.system(size: 15))
                                         
                                         Spacer()
                                         Text("Adet : \(movie.totalQty!)")
-                                            .foregroundColor(AppColors.barColor)
+                                            .foregroundColor(Color(AppColors.White))
                                             .font(.system(size: 13))
                                     }
                                     .frame(maxHeight: .infinity,alignment: .top)
@@ -83,7 +83,7 @@ struct CartScreen: View {
                                             }
                                         } label: {
                                             Image(systemName: "minus.square.fill")
-                                                .foregroundColor(AppColors.barColor)
+                                                .foregroundColor(Color(AppColors.White))
                                         }
                                         .buttonStyle(.borderless)
 
@@ -97,7 +97,7 @@ struct CartScreen: View {
                                         } label: {
                                             Image(systemName: "plus.square.fill")
                                             
-                                                .foregroundColor(AppColors.barColor)
+                                                .foregroundColor(Color(AppColors.White))
                                         }
                                         .buttonStyle(.borderless)
                                         
@@ -108,7 +108,7 @@ struct CartScreen: View {
                                 HStack {
                                     if let totalPrice = movie.totalPrice {
                                         Text("\(totalPrice) TL")
-                                            .foregroundColor(AppColors.barColor)
+                                            .foregroundColor(Color(AppColors.White))
                                             .font(.headline)
                                     }
                                 }
@@ -117,8 +117,8 @@ struct CartScreen: View {
                             }
                             .background(
                                 RoundedRectangle(cornerRadius: 8)
-                                    .fill(AppColors.krem)
-                                    .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 3)
+                                    .fill(AppColors.barPurp)
+                                    .shadow(color: .black.opacity(0.3), radius: 5, x: 0, y: 3)
                             )
                             
                             .overlay {
@@ -126,6 +126,7 @@ struct CartScreen: View {
                                     .stroke(Color.gray.opacity(0.2), lineWidth: 1)
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.top,4)
                             .padding(.bottom,8)
                             .listRowInsets(EdgeInsets())
                             .listRowBackground(Color.clear)
@@ -138,6 +139,7 @@ struct CartScreen: View {
                         }
                         
                     }
+                    
                     .padding(.bottom, 48)
                     .scrollContentBackground(.hidden)
                 }
@@ -147,28 +149,28 @@ struct CartScreen: View {
             
             
             VStack {
-                HStack(spacing: 8) {
+                HStack {
                     Button {
                         
                     } label: {
                         Text("Sepeti Onayla")
-                            .foregroundColor(AppColors.barColor)
+                            .foregroundColor(Color.white)//AppColors.barColor idi.
                             .padding(.horizontal, 16)
                             .padding(.vertical, 12)
-                            .frame(maxWidth: 200, maxHeight: 50, alignment: .center)
-                            .background(RoundedRectangle(cornerRadius: 4).fill(Color(AppColors.krem)))
+                            .frame(maxWidth: 180, maxHeight: 50, alignment: .center)
+                            .background(RoundedRectangle(cornerRadius: 4).fill(Color(AppColors.backPurp)))//AppColors.krem idi.
                         
                     }
                     .buttonStyle(PressableStyle())
                     Text("\(viewModel.recalcTotalInt()) TL")
-                        .foregroundColor(AppColors.barColor)
+                        .foregroundColor(Color.white)//AppColors.barColor idi.
                         .padding(.horizontal, 16)
                         .padding(.vertical, 12)
-                        .frame(maxWidth: 200, maxHeight: 50, alignment: .center)
-                        .background(RoundedRectangle(cornerRadius: 4).fill(Color(AppColors.krem)))
+                        .frame(maxWidth: 180, maxHeight: 50, alignment: .center)
+                        .background(RoundedRectangle(cornerRadius: 4).fill(Color(AppColors.barPurp)).stroke(Color(AppColors.backPurp), lineWidth: 1))// AppColors.krem idi.
                 }
                 .frame(maxWidth: .infinity, maxHeight: 70)
-                .background(AppColors.lacivert)
+                .background(AppColors.barPurp)//AppColors.lacivert idi.
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
             

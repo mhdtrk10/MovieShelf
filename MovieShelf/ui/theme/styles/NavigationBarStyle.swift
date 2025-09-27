@@ -13,14 +13,14 @@ import SwiftUI
 struct NavigationBarStyle {
     static func setupNavigationBar() {
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = UIColor(AppColors.lacivert)
+        appearance.backgroundColor = UIColor(AppColors.barPurp)// AppColors.lacivert idi.
         
         appearance.titleTextAttributes = [
-            .foregroundColor: UIColor(AppColors.barColor),
+            .foregroundColor: UIColor(Color.white),//AppColors.barColor idi.
             .font: UIFont(name: "Newsreader", size: 22)!
         ]
         appearance.largeTitleTextAttributes = [
-            .foregroundColor: UIColor(AppColors.barColor),
+            .foregroundColor: UIColor(Color.white),//AppColors.barColor idi.
             .font: UIFont(name: "Newsreader", size: 32)!
         ]
         

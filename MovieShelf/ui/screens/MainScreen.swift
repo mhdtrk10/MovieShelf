@@ -20,7 +20,7 @@ struct MainScreen: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(AppColors.krem)
+                Color(AppColors.backPurp)// AppColors.krem idi.
                     .ignoresSafeArea(.all)
                 
                 
@@ -35,13 +35,14 @@ struct MainScreen: View {
                             
                         } label: {
                             Image(systemName: showSearch ? "xmark.circle" : "magnifyingglass")
+                                .foregroundColor(Color.white)
                         }
                         .padding(.leading, 8)
                         if showSearch {
-                            TextField("", text: $viewModel.query, prompt: Text("Search").foregroundColor(AppColors.barColor))
-                                .foregroundColor(AppColors.barColor)
+                            TextField("", text: $viewModel.query, prompt: Text("Search..").foregroundColor(Color(AppColors.White)))
+                                .foregroundColor(Color(AppColors.White))
                                 .padding(10)
-                                .background(Color(AppColors.lacivert))
+                                .background(Color(AppColors.barPurp))
                                 .cornerRadius(10)
                                 .transition(.move(edge: .leading).combined(with: .opacity))
                                 .overlay(alignment: .trailing) {
@@ -52,7 +53,7 @@ struct MainScreen: View {
                                             
                                         } label: {
                                             Image(systemName: "xmark.circle.fill")
-                                                .foregroundColor(AppColors.barColor)
+                                                .foregroundColor(Color(AppColors.White))
                                                 .imageScale(.small)
                                                 .padding(.trailing, 8)
                                                 .frame(width: 22, height: 22, alignment: .center) // rahat dokunma alanı
@@ -76,6 +77,7 @@ struct MainScreen: View {
                         } label: {
                             
                             Label(viewModel.sort.title, systemImage: "arrow.up.arrow.down")
+                                .foregroundColor(Color(AppColors.White))
                                 .labelStyle(.iconOnly)
                                 .font(.title3)
                         }
@@ -92,7 +94,7 @@ struct MainScreen: View {
                     .padding(.bottom,4)
                     if viewModel.movieList.isEmpty {
                         Text("Filmler yok !")
-                            .foregroundColor(AppColors.barColor)
+                            .foregroundColor(Color.white)
                     } else {
                         ScrollView {
 
@@ -110,8 +112,8 @@ struct MainScreen: View {
                                 }
                                 .background(
                                     RoundedRectangle(cornerRadius: 8)
-                                        .fill(AppColors.krem)
-                                        .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 3)
+                                        .fill(AppColors.barPurp)//AppColors.krem idi.
+                                        .shadow(color: .black.opacity(0.6), radius: 5, x: 0, y: 3)
                                 )
                                 .overlay {
                                     RoundedRectangle(cornerRadius: 8)
@@ -129,11 +131,11 @@ struct MainScreen: View {
                             
                             NavigationLink(destination: CartScreen()) {
                                 Text("Sepeti Görüntüle")
-                                    .foregroundColor(AppColors.barColor)
+                                    .foregroundColor(Color(AppColors.White))
                                     .padding(.horizontal, 16)
                                     .padding(.vertical, 12)
                                     .frame(maxWidth: .infinity, maxHeight: 50, alignment: .center)
-                                    .background(RoundedRectangle(cornerRadius: 4).fill(Color(AppColors.lacivert)))
+                                    .background(RoundedRectangle(cornerRadius: 4).fill(Color(AppColors.barPurp)))
                                     .padding(.leading, 8)
                                     .padding(.trailing, 8)
                             }
@@ -156,7 +158,7 @@ struct MainScreen: View {
                 }
             }
         }
-        .tint(Color(AppColors.barColor))
+        .tint(Color.white)//AppColors.barColor idi.
         
     }
 }

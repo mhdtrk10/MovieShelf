@@ -34,7 +34,7 @@ struct MovieListItem: View {
             .frame(width: 150, height: 200)
             .cornerRadius(32)
             Text(movies.name!)
-                .foregroundColor(AppColors.barColor)
+                .foregroundColor(Color(AppColors.White))
                 .font(.subheadline.bold())
                 .lineLimit(2)
             
@@ -42,60 +42,47 @@ struct MovieListItem: View {
             VStack {
                 HStack {
                     Text("Fiyat : \(movies.price!) TL")
-                        .foregroundColor(AppColors.barColor)
+                        .foregroundColor(Color(AppColors.White))
                         .padding(.leading,4)
                         .font(.system(size: 15))
-                    
+                        .padding(4)
 
                     
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                
+                .background(RoundedRectangle(cornerRadius: 4).fill(Color(AppColors.barPurp)).stroke(Color(AppColors.backPurp), lineWidth: 1))
+                .padding(.trailing,8)
                 HStack {
                     Text("IMDb: \(String(format: "%.2f", movies.rating!))")
-                        .foregroundColor(AppColors.barColor)
+                        .foregroundColor(Color(AppColors.White))
                         .padding(.leading,4)
                         .font(.system(size: 15))
-                    
+                        .padding(4)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                
+                .background(RoundedRectangle(cornerRadius: 4).fill(Color(AppColors.barPurp)).stroke(Color(AppColors.backPurp), lineWidth: 1))
+                .padding(.trailing,8)
+
                 HStack(spacing: 6) {
+                    
                     Text(movies.category!)
                         .font(.system(size: 10))
-                        .foregroundColor(AppColors.barColor)
+                        .foregroundColor(Color(AppColors.White))
                         .padding(.horizontal, 8).padding(.vertical, 4)
-                        .background(Color.gray.opacity(0.5))
+                        .background(Color(AppColors.backPurp.opacity(0.7)))
                         .clipShape(Capsule())
-                    
                     Spacer()
+                    
                 }
-                .padding(.leading,4)
+                .padding(.trailing,4)
                 .padding(.bottom,4)
                 
             }
             .padding(.leading, 8)
             
-            
-            /*
-            Button {
-                Task {
-                    await filmViewModel.save(name: movies.name!, image: movies.image!, price: movies.price!, category: movies.category!, rating: movies.rating!, year: movies.year!, director: movies.director!, description: movies.description!, orderAmount: 1, userName: "mehdi_oturak")
-                }
-            } label: {
-                Text("Sepete Ekle")
-                    .font(.caption)
-                    .fontWeight(.bold)
-                    .font(.system(size: 18))
-                    .frame(width: 120, height: 30)
-                    .foregroundColor(AppColors.barColor)
-                    .background(Color.gray.opacity(0.3))
-            }
-            .cornerRadius(8)
-            */
             Spacer()
         }
-        .background(Color.gray.opacity(0.15))
+        .background(Color(AppColors.barPurp))
         .frame(maxWidth: .infinity,maxHeight: .infinity, alignment: .top)
         .padding(.bottom,4)
         .cornerRadius(8)
