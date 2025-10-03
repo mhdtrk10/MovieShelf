@@ -127,6 +127,7 @@ struct MainScreen: View {
                             
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                        /*
                         VStack {
                             
                             NavigationLink(destination: CartScreen()) {
@@ -143,13 +144,13 @@ struct MainScreen: View {
                             
                         }
                         .frame(maxWidth: .infinity, maxHeight: 50, alignment: .center)
-                        
+                        */
                         
                     }
                     
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-                .navigationTitle("MovieShelf")
+                
                 .onAppear {
                     Task {
                         await viewModel.loadMovies()
@@ -157,6 +158,7 @@ struct MainScreen: View {
                     }
                 }
             }
+            .navigationTitle("MovieShelf")
         }
         .tint(Color.white)//AppColors.barColor idi.
         

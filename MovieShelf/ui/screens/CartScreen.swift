@@ -11,179 +11,187 @@ struct CartScreen: View {
     
     @ObservedObject var viewModel = CartViewModel()
     var filmViewModel = FilmViewModel()
+    
+    init() {
+        NavigationBarStyle.setupNavigationBar()
+    }
+    
     var body: some View {
-        ZStack {
-            Color(AppColors.backPurp)//AppColors.lacivert idi.
-                .ignoresSafeArea(edges: .all)
-            
-            
-            if viewModel.aggregated.isEmpty {
-                Text("Sepet boş!")
-                    .foregroundColor(Color.white)
-            } else {
-                VStack {
-                    List {
-                        ForEach(viewModel.aggregated) { movie in
-                            HStack {
-                                
-                                AsyncImage(url: URL(string: "http://kasimadalan.pe.hu/movies/images/\(movie.image!)")) { phase in
-                                    if let image = phase.image {
-                                        
-                                        image
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 60, height: 80)
-                                            .padding(.top,8)
-                                            .cornerRadius(8)
-                                    } else if phase.error != nil {
-                                        Color.red.overlay(Text("Hata"))
-                                    } else {
-                                        ProgressView()
-                                    }
-                                }
-                                .padding(4)
-                                .padding(.bottom,4)
-                                
+        NavigationStack {
+            ZStack {
+                Color(AppColors.backPurp)//AppColors.lacivert idi.
+                    .ignoresSafeArea(edges: .all)
+                
+                
+                if viewModel.aggregated.isEmpty {
+                    Text("Sepet boş!")
+                        .foregroundColor(Color.white)
+                } else {
+                    VStack {
+                        List {
+                            ForEach(viewModel.aggregated) { movie in
                                 HStack {
                                     
-                                    VStack(alignment: .leading) {
-                                        Text("\(movie.name!)")
-                                            .foregroundColor(Color(AppColors.White))
-                                            .font(.system(size: 15))
-                                        
-                                        Spacer()
-                                        Text("Adet : \(movie.totalQty!)")
-                                            .foregroundColor(Color(AppColors.White))
-                                            .font(.system(size: 13))
+                                    AsyncImage(url: URL(string: "http://kasimadalan.pe.hu/movies/images/\(movie.image!)")) { phase in
+                                        if let image = phase.image {
+                                            
+                                            image
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 60, height: 80)
+                                                .padding(.top,8)
+                                                .cornerRadius(8)
+                                        } else if phase.error != nil {
+                                            Color.red.overlay(Text("Hata"))
+                                        } else {
+                                            ProgressView()
+                                        }
                                     }
-                                    .frame(maxHeight: .infinity,alignment: .top)
-                                    .padding(.top, 16)
-                                    .padding(.bottom, 24)
-                                    Spacer()
+                                    .padding(4)
+                                    .padding(.bottom,4)
                                     
                                     HStack {
-                                        Button {
-                                            Task {
-                                                guard let name = movie.name,
-                                                      let Idx = viewModel.firstCartIndex(matchingAggregatedName: name)
-                                                else { return }
-                                                
-                                                let raw = viewModel.cartMovieList[Idx]
-                                                let currentQty = raw.orderAmount ?? 1
-                                                
-                                                if currentQty > 1 {
-                                                    await viewModel.updateOrderAmount(
-                                                        cartId: raw.cartId!,
-                                                        newAmount: currentQty - 1,
-                                                        userName: "mehdi_oturak"
-                                                    )
-                                                } else {
-                                                    await viewModel.delete(cartId: raw.cartId!, userName: "mehdi_oturak")
-                                                }
-                                            }
-                                        } label: {
-                                            Image(systemName: "minus.square.fill")
-                                                .foregroundColor(Color(AppColors.White))
-                                        }
-                                        .buttonStyle(.borderless)
-
-                                        .padding(.trailing,8)
                                         
-                                        Button {
-                                            Task {
-                                                await filmViewModel.save(name: movie.name!, image: movie.image!, price: movie.price!, category: movie.category!, rating: movie.rating!, year: movie.year!, director: movie.director!, description: movie.description!, orderAmount: 1, userName: "mehdi_oturak")
-                                                await viewModel.loadCartMovies(userName: "mehdi_oturak")
-                                            }
-                                        } label: {
-                                            Image(systemName: "plus.square.fill")
-                                            
+                                        VStack(alignment: .leading) {
+                                            Text("\(movie.name!)")
                                                 .foregroundColor(Color(AppColors.White))
+                                                .font(.system(size: 15))
+                                            
+                                            Spacer()
+                                            Text("Adet : \(movie.totalQty!)")
+                                                .foregroundColor(Color(AppColors.White))
+                                                .font(.system(size: 13))
                                         }
-                                        .buttonStyle(.borderless)
+                                        .frame(maxHeight: .infinity,alignment: .top)
+                                        .padding(.top, 16)
+                                        .padding(.bottom, 24)
+                                        Spacer()
+                                        
+                                        HStack {
+                                            Button {
+                                                Task {
+                                                    guard let name = movie.name,
+                                                          let Idx = viewModel.firstCartIndex(matchingAggregatedName: name)
+                                                    else { return }
+                                                    
+                                                    let raw = viewModel.cartMovieList[Idx]
+                                                    let currentQty = raw.orderAmount ?? 1
+                                                    
+                                                    if currentQty > 1 {
+                                                        await viewModel.updateOrderAmount(
+                                                            cartId: raw.cartId!,
+                                                            newAmount: currentQty - 1,
+                                                            userName: "mehdi_oturak"
+                                                        )
+                                                    } else {
+                                                        await viewModel.delete(cartId: raw.cartId!, userName: "mehdi_oturak")
+                                                    }
+                                                }
+                                            } label: {
+                                                Image(systemName: "minus.square.fill")
+                                                    .foregroundColor(Color(AppColors.White))
+                                            }
+                                            .buttonStyle(.borderless)
+                                            
+                                            .padding(.trailing,8)
+                                            
+                                            Button {
+                                                Task {
+                                                    await filmViewModel.save(name: movie.name!, image: movie.image!, price: movie.price!, category: movie.category!, rating: movie.rating!, year: movie.year!, director: movie.director!, description: movie.description!, orderAmount: 1, userName: "mehdi_oturak")
+                                                    await viewModel.loadCartMovies(userName: "mehdi_oturak")
+                                                }
+                                            } label: {
+                                                Image(systemName: "plus.square.fill")
+                                                
+                                                    .foregroundColor(Color(AppColors.White))
+                                            }
+                                            .buttonStyle(.borderless)
+                                            
+                                        }
+                                        .padding(.trailing, 8)
                                         
                                     }
-                                    .padding(.trailing, 8)
+                                    HStack {
+                                        if let totalPrice = movie.totalPrice {
+                                            Text("\(totalPrice) TL")
+                                                .foregroundColor(Color(AppColors.White))
+                                                .font(.headline)
+                                        }
+                                    }
+                                    .frame(width: 80, height: 40)
                                     
                                 }
-                                HStack {
-                                    if let totalPrice = movie.totalPrice {
-                                        Text("\(totalPrice) TL")
-                                            .foregroundColor(Color(AppColors.White))
-                                            .font(.headline)
-                                    }
+                                .background(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(AppColors.barPurp)
+                                        .shadow(color: .black.opacity(0.3), radius: 5, x: 0, y: 3)
+                                )
+                                
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color.gray.opacity(0.2), lineWidth: 1)
                                 }
-                                .frame(width: 80, height: 40)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.top,4)
+                                .padding(.bottom,8)
+                                .listRowInsets(EdgeInsets())
+                                .listRowBackground(Color.clear)
                                 
                             }
-                            .background(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(AppColors.barPurp)
-                                    .shadow(color: .black.opacity(0.3), radius: 5, x: 0, y: 3)
-                            )
-                            
-                            .overlay {
-                                RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+                            .onDelete { offsets in
+                                guard let aggIndex = offsets.first else { return }
+                                let row = viewModel.aggregated[aggIndex]
+                                Task { await viewModel.deleteAll(fromAggregated: row, userName: "mehdi_oturak") }
                             }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.top,4)
-                            .padding(.bottom,8)
-                            .listRowInsets(EdgeInsets())
-                            .listRowBackground(Color.clear)
                             
                         }
-                        .onDelete { offsets in
-                            guard let aggIndex = offsets.first else { return }
-                            let row = viewModel.aggregated[aggIndex]
-                            Task { await viewModel.deleteAll(fromAggregated: row, userName: "mehdi_oturak") }
-                        }
                         
+                        .padding(.bottom, 48)
+                        .scrollContentBackground(.hidden)
                     }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                     
-                    .padding(.bottom, 48)
-                    .scrollContentBackground(.hidden)
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                 
-            }
-            
-            
-            VStack {
-                HStack {
-                    Button {
+                
+                VStack {
+                    HStack {
+                        Button {
+                            
+                        } label: {
+                            Text("Sepeti Onayla")
+                                .foregroundColor(Color(AppColors.White))
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 12)
+                                .frame(maxWidth: 180, maxHeight: 50, alignment: .center)
+                                .background(RoundedRectangle(cornerRadius: 4).fill(Color(AppColors.backPurp)))
+                            
+                        }
+                        .buttonStyle(PressableStyle())
                         
-                    } label: {
-                        Text("Sepeti Onayla")
-                            .foregroundColor(Color.white)//AppColors.barColor idi.
+                        Text("\(viewModel.recalcTotalInt()) TL")
+                            .foregroundColor(Color.white)
                             .padding(.horizontal, 16)
                             .padding(.vertical, 12)
                             .frame(maxWidth: 180, maxHeight: 50, alignment: .center)
-                            .background(RoundedRectangle(cornerRadius: 4).fill(Color(AppColors.backPurp)))//AppColors.krem idi.
-                        
+                            .background(RoundedRectangle(cornerRadius: 4).fill(Color(AppColors.barPurp)).stroke(Color(AppColors.backPurp), lineWidth: 1))
                     }
-                    .buttonStyle(PressableStyle())
-                    Text("\(viewModel.recalcTotalInt()) TL")
-                        .foregroundColor(Color.white)//AppColors.barColor idi.
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 12)
-                        .frame(maxWidth: 180, maxHeight: 50, alignment: .center)
-                        .background(RoundedRectangle(cornerRadius: 4).fill(Color(AppColors.barPurp)).stroke(Color(AppColors.backPurp), lineWidth: 1))// AppColors.krem idi.
+                    .frame(maxWidth: .infinity, maxHeight: 70)
+                    .background(AppColors.barPurp)
                 }
-                .frame(maxWidth: .infinity, maxHeight: 70)
-                .background(AppColors.barPurp)//AppColors.lacivert idi.
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-            
-            
-            
-        }
-        .onAppear {
-            Task {
-                await viewModel.loadCartMovies(userName: "mehdi_oturak")
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+                
+                
                 
             }
+            .onAppear {
+                Task {
+                    await viewModel.loadCartMovies(userName: "mehdi_oturak")
+                    
+                }
+            }
+            .navigationTitle(Text("Sepet"))
         }
-        .navigationTitle(Text("Sepet"))
     }
     
     

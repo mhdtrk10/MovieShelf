@@ -28,6 +28,19 @@ struct NavigationBarStyle {
         UINavigationBar.appearance().compactAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
         
+        let tabbarAppearance = UITabBarAppearance()
+        tabbarAppearance.backgroundColor = UIColor(AppColors.barPurp)
+        tabbarAppearance.stackedLayoutAppearance.normal.iconColor = UIColor(AppColors.White)
+        tabbarAppearance.stackedLayoutAppearance.normal.titleTextAttributes = [
+            .font: UIFont.systemFont(ofSize: 13),
+            .foregroundColor: UIColor(AppColors.White)
+        ]
+        UITabBar.appearance().standardAppearance = tabbarAppearance
+        UITabBar.appearance().scrollEdgeAppearance = tabbarAppearance
+        
+        
         
     }
+    
 }
+

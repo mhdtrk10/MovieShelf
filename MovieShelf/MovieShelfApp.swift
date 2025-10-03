@@ -11,7 +11,7 @@ import SwiftUI
 struct MovieShelfApp: App {
     var body: some Scene {
         WindowGroup {
-            MainScreen().environment(\.font, .custom("Newsreader", size: 18))
+            HomeScreen().environment(\.font, .custom("Newsreader", size: 18))
         }
     }
 }

@@ -37,3 +37,20 @@ class Movies: Identifiable,Codable {
     }
     
 }
+enum Tab: Hashable, CaseIterable {
+    case home, cart
+    
+    var title: String {
+        switch self {
+        case .home: return "Anasayfa"
+        case .cart: return "Sepet"
+        }
+    }
+    var systemImage: String {
+        switch self {
+        case .home: return "house.fill"
+        case .cart: return "cart.fill"
+        }
+    }
+}
+
